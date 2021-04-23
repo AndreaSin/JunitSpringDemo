@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import com.example.demo.controller.Controller;
 
 @WebMvcTest(Controller.class)
@@ -43,6 +44,13 @@ class ControllerTest {
 		// e la simulo con il mock
 		MvcResult result = mvc.perform(request).andReturn();
 		assertEquals("Hello Default", result.getResponse().getContentAsString());
+	}
+	
+	// un altro modo, piu conciso
+	@Test
+	void testHelloWithName() throws Exception { 
+		mvc.perform(get("/hello?name=World"))
+			.andExpect(content().string("Hello World"));
 	}
 	
 }
